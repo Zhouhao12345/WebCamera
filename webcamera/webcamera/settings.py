@@ -25,7 +25,7 @@ SECRET_KEY = '--by_l)d1e+1#0pw^1+g57u3%y4kwb+5+vpq8y9@2r^5be!vw8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['justweb.applinzi.com']
 
 
 # Application definition
