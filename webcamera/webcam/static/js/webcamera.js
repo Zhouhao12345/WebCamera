@@ -27,7 +27,6 @@ $(document).ready(function() {
                     function (img) {
                         pos = 0;
                         image = new Array();
-                        console.log(img);
                         $("#img").attr("src",img)
                     });
             }
