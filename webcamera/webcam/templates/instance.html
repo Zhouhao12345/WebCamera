@@ -1,0 +1,21 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+{% block title_block %}Home page{% endblock %}
+{% block right_bottom_block %}
+    {% if object_list %}
+        <ul>
+            {% for instance in object_list %}
+                <li>{{ instance.name }}
+                    <a href="{% url 'delete_instance' instance.id %}">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p> There are no instance, please create one. </p>
+    {% endif %}
+        <a href="{% url 'create_instance' %}">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+{% endblock %}

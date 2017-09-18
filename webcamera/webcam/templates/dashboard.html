@@ -1,0 +1,41 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+{% block title_block %}Home page{% endblock %}
+{% block right_bottom_block %}
+    <h1 class="page-header">Control Panel</h1>
+    <div class="control-panel">
+        <div class="control-panel-wrapper">
+            <div class="row">
+                <div class="justify-grid dash-item-tit">
+                    <div class="col">
+                        <p class="dash-item-hd">Working Services</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="dash-item-list">
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <div class="dash-item">
+                            {{ instance_len }}
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <div class="dash-item">
+                            {{ instance_len }}
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <div class="dash-item">
+                            {{ instance_len }}
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <div class="dash-item">
+                            {{ instance_len }}
+                        </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

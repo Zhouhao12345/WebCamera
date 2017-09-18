@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml" lang = "zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{%block title_block%}Build a team{% endblock%}</title>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+    <link href="{% static 'css/webcamera.css' %}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed navbar-scaleway-collapse" data-toggle="collapse" data-target="#navbar-scaleway-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+          <a class="navbar-brand" href="#">Densiel</a>
+        </div>
+        <div id="navbar-scaleway-collapse" class="collapse navbar-collapse navbar-scaleway-collapse">
+          <ul class="main-navbar nav navbar-nav navbar-center">
+              {% if not user.is_authenticated %}
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+              {% else %}
+                <li><a href="#1">Home</a></li>
+                <li><a href="#2">About</a></li>
+                <li><a href="#3">Contact</a></li>
+              {% endif %}
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              {% if not user.is_authenticated %}
+                  <li><a href="{% url 'auth_login' %}"><span class="glyphicon glyphicon-log-in">Login</span></a></li>
+                  <li><a href="{%  url 'registration_register' %}"><span class="glyphicon glyphicon-user">Signup</span></a></li>
+              {% else %}
+                  <li>
+                      <a href="{% url 'profile' %}">
+                          <span class="glyphicon glyphicon-user">
+                              Hi! {{ user.username }}
+                          </span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#profile"
+                         class="dropdown-toggle glyphicon glyphicon-align-justify"
+                         data-toggle="dropdown"
+                         role="button"
+                         aria-haspopup="true"
+                         aria-expanded="false">
+                          <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu">
+                          <li>
+                              <a href="{% url 'auth_logout' %}">
+                                  <span class="glyphicon glyphicon-log-out">
+                                      Logout
+                                  </span>
+                              </a>
+                          </li>
+                     </ul>
+                  </li>
+              {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container-fluid" id="body_div">
+
+        <div class="main_block">
+
+        {% block body_block %}{% endblock %}
+
+        </div>
+
+    </div><!-- /.container -->
+    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/npm.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.webcam.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/webcamera.js' %}"></script>
+</body>
+</html>

@@ -15,9 +15,22 @@ Including another URLconf
 """
 from django.conf.urls import *
 from django.contrib import admin
-import webcam
+from webcam.models import ResUsers
+from registration.backends.simple.views import RegistrationView
+from registration.forms import RegistrationFormUniqueEmail
+
+class MyRegistrationView(RegistrationView):
+    form_class = RegistrationFormUniqueEmail
+
+    def get_success_url(self, user):
+        User = ResUsers(user=user)
+        User.save()
+        return '/accounts/profile/'
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('webcam.urls')),
+    url(r'^', include('webcam.urls'), name='home'),
+    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
 ]

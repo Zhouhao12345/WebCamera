@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}Home page{% endblock %}
+{% block body_block %}
+    <div class="row">
+        <div id="webcam">
+        </div>
+        <div>
+            <p>Webcamera</p>
+            <img id="img"/>
+            <ul id="cams"></ul>
+            <input id="save" type="button" value="Save"/>
+        </div>
+    </div>
+{% endblock %}

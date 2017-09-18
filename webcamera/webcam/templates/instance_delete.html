@@ -1,0 +1,10 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+{% block title_block %}Home page{% endblock %}
+{% block right_bottom_block %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <input type="submit" value="Confirm" />
+    </form>
+{% endblock %}

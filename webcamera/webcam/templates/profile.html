@@ -1,0 +1,7 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+{% block title_block %}Home page{% endblock %}
+{% block right_bottom_block %}
+    <p>{{ object.user.username }}</p>
+    <p>{{ object.user.email }}</p>
+{% endblock %}
