@@ -5,6 +5,14 @@ __pycache__/
 # C extensions
 *.so
 
+# django setting, wsgi
+webcamera/webcamera/settings.py
+webcamera/webcamera/wsgi.py
+
+# django db migration
+
+webcamera/webcam/migrations/
+
 # Distribution / packaging
 .Python
 env/
