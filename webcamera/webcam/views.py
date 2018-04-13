@@ -1,3 +1,4 @@
+from __future__ import print_function
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy
@@ -9,6 +10,8 @@ from StringIO import StringIO
 from django.views.generic import *
 from webcam.models import *
 from webcam.tasks import *
+import numpy
+import cv2 as cv
 import base64
 
 class HomeView(TemplateView):
@@ -135,9 +138,9 @@ class InstanceCreateView(CreateView):
 def comerapost(request):
     if request.POST:
         image = Image.new(
-            "RGB", (int(
+            "RGBA", (int(
                 request.POST['w']), int(
-                request.POST['h'])))
+                request.POST['h'])), "#FF0000")
         imageRGB = filter(
             lambda cell: cell,
             request.POST['pix'].split('|'))
@@ -145,9 +148,44 @@ def comerapost(request):
             items = filter(lambda cell: cell, item.split(';'))
             for index1, item_in in enumerate(items):
                 image.putpixel((index1, index), int(item_in, 10))
-        fake_file = StringIO()
-        image.save(fake_file, "jpeg")
+        image = detect_face(numpy.array(image))
+        a = StringIO()
+        Image.fromarray(image).save(a, 'jpeg')
     return HttpResponse(
         'data:image/png;base64,' +
         base64.b64encode(
-            fake_file.getvalue()))
+            a.getvalue()))
+
+def detect(img, cascade):
+    rects = cascade.detectMultiScale(img, scaleFactor=1.3, minNeighbors=4, minSize=(30, 30),
+                                     flags=cv.CASCADE_SCALE_IMAGE)
+    if len(rects) == 0:
+        return []
+    rects[:,2:] += rects[:,:2]
+    return rects
+
+def draw_rects(img, rects, color):
+    for x1, y1, x2, y2 in rects:
+        cv.rectangle(img, (x1, y1), (x2, y2), color, 2)
+
+import os
+
+def detect_face(img):
+    cascade_fn = os.path.abspath(os.path.dirname(__file__)) + "/opencv/haarcascades/haarcascade_frontalface_alt.xml"
+    nested_fn = os.path.abspath(os.path.dirname(__file__)) + "/opencv/haarcascades/haarcascade_eye.xml"
+
+    cascade = cv.CascadeClassifier(cascade_fn)
+    nested = cv.CascadeClassifier(nested_fn)
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    gray = cv.equalizeHist(gray)
+
+    rects = detect(gray, cascade)
+    vis = img.copy()
+    draw_rects(vis, rects, (0, 255, 0))
+    if not nested.empty():
+        for x1, y1, x2, y2 in rects:
+            roi = gray[y1:y2, x1:x2]
+            vis_roi = vis[y1:y2, x1:x2]
+            subrects = detect(roi.copy(), nested)
+            draw_rects(vis_roi, subrects, (255, 0, 0))
+    return vis
