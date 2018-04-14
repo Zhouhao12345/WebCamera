@@ -1,0 +1,16 @@
+db:
+  image: postgres
+  environment:
+     POSTGRES_USER: 'zhouhao'
+     POSTGRES_PASSWORD: '123'
+  ports:
+     - 5434:5432
+
+webcamera:
+   build: .
+   ports:
+     - 8000:8000
+   volumes:
+     - /home/zhouhao/stdu/opencv_webcamera_docker/webcamera:/usr/src/app/webcamera
+   external_links:
+     - opencvwebcameradocker_db_1:db
